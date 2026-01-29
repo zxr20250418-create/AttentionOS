@@ -25,7 +25,7 @@ struct InboxItemRow: View {
         let nextMondayStart = calendar.date(byAdding: .day, value: 1, to: now) ?? now
         let nextMonday = calendar.nextDate(
             after: nextMondayStart,
-            matching: DateComponents(weekday: 2, hour: 9, minute: 0),
+            matching: DateComponents(hour: 9, minute: 0, weekday: 2),
             matchingPolicy: .nextTimePreservingSmallerComponents
         ) ?? nextMondayStart
         return [
