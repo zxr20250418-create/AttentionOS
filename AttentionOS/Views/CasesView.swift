@@ -3,6 +3,7 @@ import SwiftData
 
 struct CasesView: View {
     @Environment(\.modelContext) private var modelContext
+    @AppStorage(NotificationSettings.globalEnabledKey) private var notificationsEnabled = true
     @Query(sort: \Case.createdAt, order: .reverse) private var cases: [Case]
     @State private var isPresentingNewCase = false
 
@@ -37,6 +38,7 @@ struct CasesView: View {
         .sheet(isPresented: $isPresentingNewCase) {
             NavigationStack {
                 CaseFormView(mode: .new, initial: .empty) { values in
+                    let notifyEnabled = values.nextReview != nil
                     let newCase = Case(
                         title: values.title,
                         brief: values.brief,
@@ -45,13 +47,14 @@ struct CasesView: View {
                         urgency: values.urgency,
                         decision: values.decision,
                         nextReview: values.nextReview,
-                        notifyEnabled: false,
+                        notifyEnabled: notifyEnabled,
                         manual: true,
                         createdAt: .now,
                         updatedAt: .now
                     )
                     modelContext.insert(newCase)
                     try? modelContext.save()
+                    updateNotification(for: newCase, globalEnabled: notificationsEnabled)
                 }
             }
         }

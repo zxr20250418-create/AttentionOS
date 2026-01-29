@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2ACF7B299D45459A8C617387 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3613CE0D7CE4800BB33A413 /* SettingsView.swift */; };
+		80DFF35E20D946478529584C /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474E960370DB4DCA8FC0F626 /* NotificationManager.swift */; };
 		12BA75F03516447E8CFCBD3E /* Preview Content/Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 70F9918ADFA34BD3AC1289E0 /* Preview Content/Preview Assets.xcassets */; };
 		19115EDE5660441091ECDE53 /* CaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D3CBE72270C422687499512 /* CaptureView.swift */; };
 		178C20E617CC4F3698F83B3B /* CaseFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FA20D5B70749358D48056E /* CaseFormView.swift */; };
@@ -31,6 +33,7 @@
 		02FA20D5B70749358D48056E /* CaseFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseFormView.swift; sourceTree = "<group>"; };
 		1414286E67B14671A37451D9 /* ReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewView.swift; sourceTree = "<group>"; };
 		1983A85BE9314843A9046F43 /* AttemptFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttemptFormView.swift; sourceTree = "<group>"; };
+		474E960370DB4DCA8FC0F626 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		4C7F7569DDB34C70AE84C4DA /* CaseDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaseDetailView.swift; sourceTree = "<group>"; };
 		5012310E6AD24843B88AD2CB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5191D03CAF3D43CF91AA9448 /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
@@ -46,6 +49,7 @@
 		B149F51B1EA34B46AC0D226A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BBF939BAE28E4A3788F29C9B /* AttemptRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttemptRow.swift; sourceTree = "<group>"; };
 		ECA892A957BF4E7AAD3C4E4E /* AttentionOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttentionOSApp.swift; sourceTree = "<group>"; };
+		F3613CE0D7CE4800BB33A413 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +69,7 @@
 				0D3CBE72270C422687499512 /* CaptureView.swift */,
 				1414286E67B14671A37451D9 /* ReviewView.swift */,
 				A2028EC20DF842C0BF699482 /* CasesView.swift */,
+				F3613CE0D7CE4800BB33A413 /* SettingsView.swift */,
 				4C7F7569DDB34C70AE84C4DA /* CaseDetailView.swift */,
 				02FA20D5B70749358D48056E /* CaseFormView.swift */,
 				1983A85BE9314843A9046F43 /* AttemptFormView.swift */,
@@ -87,6 +92,7 @@
 			isa = PBXGroup;
 			children = (
 				ECA892A957BF4E7AAD3C4E4E /* AttentionOSApp.swift */,
+				474E960370DB4DCA8FC0F626 /* NotificationManager.swift */,
 				F8D9BA4CB69D40C2AEB70A04 /* Models */,
 				185BB735B54B4C72906CE2AD /* Views */,
 				5012310E6AD24843B88AD2CB /* Assets.xcassets */,
@@ -196,6 +202,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				80DFF35E20D946478529584C /* NotificationManager.swift in Sources */,
 				536B7DB1802A4ED7A65D58EC /* AttentionOSApp.swift in Sources */,
 				A45090A1D1D64449B091824A /* Enums.swift in Sources */,
 				E9E554CC00064727A1289FF2 /* InboxItem.swift in Sources */,
@@ -205,6 +212,7 @@
 				19115EDE5660441091ECDE53 /* CaptureView.swift in Sources */,
 				C9ADC01A19B14F75A5A73340 /* ReviewView.swift in Sources */,
 				898C02332CA44ACFB0CAA6C0 /* CasesView.swift in Sources */,
+				2ACF7B299D45459A8C617387 /* SettingsView.swift in Sources */,
 				EFDA0EEA2ABE40C8B688D075 /* CaseDetailView.swift in Sources */,
 				178C20E617CC4F3698F83B3B /* CaseFormView.swift in Sources */,
 				506DE796B95B4A2AAA496F22 /* AttemptFormView.swift in Sources */,

@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 
 private struct ScheduleOption: Identifiable {
     let id = UUID()
@@ -8,6 +9,8 @@ private struct ScheduleOption: Identifiable {
 
 struct InboxItemRow: View {
     let item: InboxItem
+    @Environment(\.modelContext) private var modelContext
+    @AppStorage(NotificationSettings.globalEnabledKey) private var notificationsEnabled = true
     @State private var showScheduleOptions = false
 
     private var scheduleOptions: [ScheduleOption] {
@@ -40,23 +43,34 @@ struct InboxItemRow: View {
         item.decision = .doNow
         item.state = .active
         item.nextReview = nil
+        item.notifyEnabled = false
         item.manual = true
         item.updatedAt = .now
+        persistChanges()
     }
 
     private func applySchedule(date: Date) {
         item.decision = .schedule
         item.nextReview = date
+        item.notifyEnabled = true
         item.manual = true
         item.updatedAt = .now
+        persistChanges()
     }
 
     private func applyDrop() {
         item.decision = .drop
         item.state = .done
         item.nextReview = nil
+        item.notifyEnabled = false
         item.manual = true
         item.updatedAt = .now
+        persistChanges()
+    }
+
+    private func persistChanges() {
+        try? modelContext.save()
+        updateNotification(for: item, globalEnabled: notificationsEnabled)
     }
 
     var body: some View {

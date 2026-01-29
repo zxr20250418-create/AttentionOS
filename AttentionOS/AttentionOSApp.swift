@@ -7,6 +7,7 @@ struct AttentionOSApp: App {
     private let container: ModelContainer
 
     init() {
+        UserDefaults.standard.register(defaults: [NotificationSettings.globalEnabledKey: true])
         do {
             container = try ModelContainer(for: InboxItem.self, Case.self, Attempt.self)
         } catch {
@@ -26,6 +27,7 @@ enum AppTab: Hashable {
     case capture
     case review
     case cases
+    case settings
 }
 
 struct RootTabView: View {
@@ -56,6 +58,14 @@ struct RootTabView: View {
                 Label("Cases", systemImage: "tray.full")
             }
             .tag(AppTab.cases)
+
+            NavigationStack {
+                SettingsView()
+            }
+            .tabItem {
+                Label("Settings", systemImage: "gear")
+            }
+            .tag(AppTab.settings)
         }
     }
 }

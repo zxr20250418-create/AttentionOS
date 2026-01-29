@@ -4,10 +4,11 @@
 
 ## 功能覆盖
 - 数据模型：`InboxItem` / `Case` / `Attempt`，包含 `importance/urgency/state/decision/benefit/friction/nextReview/notifyEnabled/manual` 等字段。
-- 基础导航与三 Tab：Capture / Review / Cases，冷启动默认进入 Review。
+- 基础导航与四 Tab：Capture / Review / Cases / Settings，冷启动默认进入 Review。
 - Capture：两输入框（想法必填、为什么可选），保存后清空并停留在页。
 - Review：列表分段（Due / Inbox / Do Now / Schedule），包含示例过滤逻辑（基于字段）。
-- Cases：Case 列表与详情页占位。
+- Cases：Case 列表、详情、编辑与尝试记录。
+- 本地通知：`nextReview` + `notifyEnabled` 自动排程，支持单条更新与全局开关。
 
 ## 项目结构
 ```
@@ -25,10 +26,12 @@ AttentionOS/
     CaptureView.swift
     ReviewView.swift
     CasesView.swift
+    SettingsView.swift
     CaseDetailView.swift
     Components/
       InboxItemRow.swift
       CaseRow.swift
+  NotificationManager.swift
 ```
 
 ## 运行与构建
@@ -42,5 +45,4 @@ AttentionOS/
 ## 下一步建议
 - 将 Review 决策流转扩展到 Case 与 Attempt（含分段筛选）。
 - 补齐 Attempt 详情与编辑流程（含 outcome/importance/urgency）。
-- 加入通知调度（基于 `nextReview` + `notifyEnabled`）。
 - 引入数据迁移策略与测试数据种子。

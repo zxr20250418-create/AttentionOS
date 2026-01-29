@@ -3,6 +3,7 @@ import SwiftData
 
 struct CaseDetailView: View {
     @Environment(\.modelContext) private var modelContext
+    @AppStorage(NotificationSettings.globalEnabledKey) private var notificationsEnabled = true
     @Bindable var caseItem: Case
     @State private var isPresentingEdit = false
     @State private var isPresentingNewAttempt = false
@@ -77,8 +78,10 @@ struct CaseDetailView: View {
                     caseItem.urgency = values.urgency
                     caseItem.decision = values.decision
                     caseItem.nextReview = values.nextReview
+                    caseItem.notifyEnabled = values.nextReview != nil
                     caseItem.updatedAt = .now
                     try? modelContext.save()
+                    updateNotification(for: caseItem, globalEnabled: notificationsEnabled)
                 }
             }
         }
@@ -86,17 +89,20 @@ struct CaseDetailView: View {
             NavigationStack {
                 AttemptFormView(mode: .new, initial: .empty) { values in
                     let trimmedNote = values.note.trimmingCharacters(in: .whitespacesAndNewlines)
+                    let notifyEnabled = values.nextReview != nil
                     let attempt = Attempt(
                         note: trimmedNote,
                         state: values.state,
                         decision: values.decision,
                         benefit: values.benefit,
                         friction: values.friction,
-                        nextReview: values.nextReview
+                        nextReview: values.nextReview,
+                        notifyEnabled: notifyEnabled
                     )
                     caseItem.attempts.append(attempt)
                     modelContext.insert(attempt)
                     try? modelContext.save()
+                    updateNotification(for: attempt, globalEnabled: notificationsEnabled)
                 }
             }
         }
