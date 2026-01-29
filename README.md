@@ -41,6 +41,6 @@ AttentionOS/
 
 ## 下一步建议
 - 将 Review 决策流转扩展到 Case 与 Attempt（含分段筛选）。
-- 为 Case 与 Attempt 增加编辑表单与关系管理。
+- 补齐 Attempt 详情与编辑流程（含 outcome/importance/urgency）。
 - 加入通知调度（基于 `nextReview` + `notifyEnabled`）。
 - 引入数据迁移策略与测试数据种子。

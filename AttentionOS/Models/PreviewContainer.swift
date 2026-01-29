@@ -36,6 +36,7 @@ enum PreviewContainer {
             context.insert(
                 Case(
                     title: "Launch AttentionOS v0.1",
+                    brief: "Scaffold core flows",
                     details: "Scaffold core flows",
                     importance: 9,
                     urgency: 7,

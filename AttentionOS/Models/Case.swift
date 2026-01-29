@@ -4,6 +4,7 @@ import SwiftData
 @Model
 final class Case {
     var title: String
+    var brief: String
     var details: String
     var importance: Int
     var urgency: Int
@@ -22,6 +23,7 @@ final class Case {
 
     init(
         title: String,
+        brief: String = "",
         details: String = "",
         importance: Int = 0,
         urgency: Int = 0,
@@ -37,6 +39,7 @@ final class Case {
         attempts: [Attempt] = []
     ) {
         self.title = title
+        self.brief = brief
         self.details = details
         self.importance = importance
         self.urgency = urgency

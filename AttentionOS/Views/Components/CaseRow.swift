@@ -5,9 +5,13 @@ struct CaseRow: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text(caseItem.title)
+            Text(caseItem.title.isEmpty ? "Untitled Case" : caseItem.title)
                 .font(.headline)
-            if !caseItem.details.isEmpty {
+            if !caseItem.brief.isEmpty {
+                Text(caseItem.brief)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+            } else if !caseItem.details.isEmpty {
                 Text(caseItem.details)
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
