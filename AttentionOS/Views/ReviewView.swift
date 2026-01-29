@@ -20,7 +20,7 @@ struct ReviewView: View {
 
     private var doNowItems: [InboxItem] {
         items.filter { item in
-            item.decision == .doNow && item.nextReview == nil
+            item.decision == .doNow && item.state != .done
         }
     }
 
@@ -28,7 +28,7 @@ struct ReviewView: View {
         let now = Date()
         return items.filter { item in
             guard let nextReview = item.nextReview else { return false }
-            return nextReview > now
+            return item.decision == .schedule && item.state != .done && nextReview > now
         }
     }
 

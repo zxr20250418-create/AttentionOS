@@ -40,7 +40,7 @@ AttentionOS/
   本环境未安装完整 Xcode（仅 Command Line Tools），因此未能实际执行该命令。
 
 ## 下一步建议
-- 在 Review 页面引入更完整的决策流转（state/decision 自动更新）。
+- 将 Review 决策流转扩展到 Case 与 Attempt（含分段筛选）。
 - 为 Case 与 Attempt 增加编辑表单与关系管理。
 - 加入通知调度（基于 `nextReview` + `notifyEnabled`）。
 - 引入数据迁移策略与测试数据种子。
