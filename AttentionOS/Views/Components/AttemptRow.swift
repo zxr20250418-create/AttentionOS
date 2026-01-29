@@ -23,7 +23,7 @@ struct AttemptRow: View {
 
 #Preview {
     List {
-        AttemptRow(attempt: Attempt(note: "Draft outline", decision: .doNow, state: .active))
+        AttemptRow(attempt: Attempt(note: "Draft outline", state: .active, decision: .doNow))
     }
     .modelContainer(PreviewContainer.shared)
 }
