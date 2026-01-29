@@ -21,6 +21,24 @@ struct CaseFormValues {
         )
     }
 
+    init(
+        title: String,
+        brief: String,
+        details: String,
+        importance: Int,
+        urgency: Int,
+        decision: Decision,
+        nextReview: Date?
+    ) {
+        self.title = title
+        self.brief = brief
+        self.details = details
+        self.importance = importance
+        self.urgency = urgency
+        self.decision = decision
+        self.nextReview = nextReview
+    }
+
     init(caseItem: Case) {
         self.title = caseItem.title
         self.brief = caseItem.brief
