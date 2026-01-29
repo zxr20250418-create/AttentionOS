@@ -1,6 +1,7 @@
 import Foundation
 import SwiftData
 
+@MainActor
 enum PreviewContainer {
     static let shared: ModelContainer = {
         let configuration = ModelConfiguration(isStoredInMemoryOnly: true)
