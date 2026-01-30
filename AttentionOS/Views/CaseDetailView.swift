@@ -90,7 +90,7 @@ struct CaseDetailView: View {
                     caseItem.notifyEnabled = values.nextReview != nil
                     caseItem.updatedAt = .now
                     try? modelContext.save()
-                    updateNotification(for: caseItem, globalEnabled: notificationsEnabled)
+                    syncNotification(for: caseItem, globalEnabled: notificationsEnabled)
                 }
             }
         }
@@ -119,7 +119,7 @@ struct CaseDetailView: View {
                     caseItem.attempts.append(attempt)
                     modelContext.insert(attempt)
                     try? modelContext.save()
-                    updateNotification(for: attempt, globalEnabled: notificationsEnabled)
+                    syncNotification(for: attempt, globalEnabled: notificationsEnabled)
                 }
             }
         }

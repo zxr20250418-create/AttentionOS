@@ -86,13 +86,13 @@ struct SettingsView: View {
 
     private func scheduleAll() {
         for item in inboxItems {
-            updateNotification(for: item, globalEnabled: true)
+            syncNotification(for: item, globalEnabled: true)
         }
         for caseItem in cases {
-            updateNotification(for: caseItem, globalEnabled: true)
+            syncNotification(for: caseItem, globalEnabled: true)
         }
         for attempt in attempts {
-            updateNotification(for: attempt, globalEnabled: true)
+            syncNotification(for: attempt, globalEnabled: true)
         }
     }
 
@@ -272,6 +272,17 @@ private enum MarkdownRenderer {
             lines.append(briefContent)
         }
         lines.append("")
+        lines.append("## Decision")
+        lines.append(decisionSummary(for: caseItem))
+        lines.append("")
+        lines.append("## Key Evidence")
+        let evidenceLines = keyEvidenceLines(for: caseItem)
+        if evidenceLines.isEmpty {
+            lines.append("- None yet")
+        } else {
+            lines.append(contentsOf: evidenceLines)
+        }
+        lines.append("")
         lines.append("## Snapshot")
 
         let recentAttempts = caseItem.attempts.sorted { $0.createdAt > $1.createdAt }.prefix(3)
@@ -309,10 +320,50 @@ private enum MarkdownRenderer {
         let note = attempt.note.trimmingCharacters(in: .whitespacesAndNewlines)
         let outcome = attempt.outcome.trimmingCharacters(in: .whitespacesAndNewlines)
         let displayNote = note.isEmpty ? "Untitled Attempt" : note
-        if outcome.isEmpty {
-            return singleLine(displayNote)
+        var parts: [String] = [displayNote]
+        if attempt.decision != .undecided {
+            parts.append("Decision: \(attempt.decision.rawValue)")
         }
-        return singleLine("\(displayNote) — \(outcome)")
+        if !outcome.isEmpty {
+            parts.append(outcome)
+        }
+        return singleLine(parts.joined(separator: " — "))
+    }
+
+    private static func decisionSummary(for caseItem: Case) -> String {
+        if caseItem.decision != .undecided {
+            return "Case decision: \(caseItem.decision.rawValue)"
+        }
+        let latestAttempt = caseItem.attempts.max(by: { $0.updatedAt < $1.updatedAt })
+        if let latestAttempt, latestAttempt.decision != .undecided {
+            return "Latest attempt decision: \(latestAttempt.decision.rawValue)"
+        }
+        return "Undecided"
+    }
+
+    private static func keyEvidenceLines(for caseItem: Case) -> [String] {
+        let attempts = caseItem.attempts.sorted { $0.updatedAt > $1.updatedAt }
+        var lines: [String] = []
+        for attempt in attempts {
+            let outcome = attempt.outcome.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard !outcome.isEmpty else { continue }
+            let firstLine = firstNonEmptyLine(from: outcome)
+            let date = listDateFormatter.string(from: attempt.updatedAt)
+            lines.append("- \(date) — \(singleLine(firstLine))")
+            if lines.count >= 5 { break }
+        }
+        return lines
+    }
+
+    private static func firstNonEmptyLine(from text: String) -> String {
+        let lines = text.split(whereSeparator: \.isNewline)
+        for line in lines {
+            let trimmed = line.trimmingCharacters(in: .whitespacesAndNewlines)
+            if !trimmed.isEmpty {
+                return trimmed
+            }
+        }
+        return text.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
     private static func nextStepText(for caseItem: Case) -> String {

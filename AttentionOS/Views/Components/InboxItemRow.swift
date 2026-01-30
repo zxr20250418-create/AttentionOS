@@ -70,7 +70,7 @@ struct InboxItemRow: View {
 
     private func persistChanges() {
         try? modelContext.save()
-        updateNotification(for: item, globalEnabled: notificationsEnabled)
+        syncNotification(for: item, globalEnabled: notificationsEnabled)
     }
 
     var body: some View {

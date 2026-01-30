@@ -69,7 +69,12 @@ protocol NotifiableItem {
     var notificationBody: String { get }
 }
 
-extension InboxItem: NotifiableItem {
+protocol MutableNotifiableItem: NotifiableItem, AnyObject {
+    var nextReview: Date? { get set }
+    var notifyEnabled: Bool { get set }
+}
+
+extension InboxItem: MutableNotifiableItem {
     var notificationKey: String {
         "Inbox:\(persistentModelID)"
     }
@@ -83,7 +88,7 @@ extension InboxItem: NotifiableItem {
     }
 }
 
-extension Case: NotifiableItem {
+extension Case: MutableNotifiableItem {
     var notificationKey: String {
         "Case:\(persistentModelID)"
     }
@@ -97,7 +102,7 @@ extension Case: NotifiableItem {
     }
 }
 
-extension Attempt: NotifiableItem {
+extension Attempt: MutableNotifiableItem {
     var notificationKey: String {
         "Attempt:\(persistentModelID)"
     }
@@ -123,4 +128,9 @@ func updateNotification(for item: NotifiableItem, globalEnabled: Bool) {
     Task {
         await manager.reschedule(id: id, date: date, title: title, body: body)
     }
+}
+
+func syncNotification(for item: MutableNotifiableItem, globalEnabled: Bool) {
+    item.notifyEnabled = item.nextReview != nil
+    updateNotification(for: item, globalEnabled: globalEnabled)
 }

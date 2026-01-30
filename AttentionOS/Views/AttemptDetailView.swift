@@ -85,7 +85,7 @@ struct AttemptDetailView: View {
                     attempt.notifyEnabled = values.nextReview != nil
                     attempt.updatedAt = .now
                     try? modelContext.save()
-                    updateNotification(for: attempt, globalEnabled: notificationsEnabled)
+                    syncNotification(for: attempt, globalEnabled: notificationsEnabled)
                 }
             }
         }
@@ -108,7 +108,7 @@ struct AttemptDetailView: View {
                     attempt.nextReview = nil
                     attempt.notifyEnabled = false
                     try? modelContext.save()
-                    updateNotification(for: attempt, globalEnabled: notificationsEnabled)
+                    syncNotification(for: attempt, globalEnabled: notificationsEnabled)
                 }
             }
         }
@@ -122,7 +122,7 @@ struct AttemptDetailView: View {
                     attempt.nextReview = values.nextReview
                     attempt.notifyEnabled = true
                     try? modelContext.save()
-                    updateNotification(for: attempt, globalEnabled: notificationsEnabled)
+                    syncNotification(for: attempt, globalEnabled: notificationsEnabled)
                 }
             }
         }

@@ -54,7 +54,7 @@ struct CasesView: View {
                     )
                     modelContext.insert(newCase)
                     try? modelContext.save()
-                    updateNotification(for: newCase, globalEnabled: notificationsEnabled)
+                    syncNotification(for: newCase, globalEnabled: notificationsEnabled)
                 }
             }
         }
