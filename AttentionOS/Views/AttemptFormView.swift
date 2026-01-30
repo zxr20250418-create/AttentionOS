@@ -25,6 +25,28 @@ struct AttemptFormValues {
         )
     }
 
+    init(
+        note: String,
+        outcome: String,
+        importance: Int,
+        urgency: Int,
+        decision: Decision,
+        benefit: Double,
+        friction: Double,
+        state: ItemState,
+        nextReview: Date?
+    ) {
+        self.note = note
+        self.outcome = outcome
+        self.importance = importance
+        self.urgency = urgency
+        self.decision = decision
+        self.benefit = benefit
+        self.friction = friction
+        self.state = state
+        self.nextReview = nextReview
+    }
+
     init(attempt: Attempt) {
         self.note = attempt.note
         self.outcome = attempt.outcome

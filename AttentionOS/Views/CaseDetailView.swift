@@ -7,6 +7,7 @@ struct CaseDetailView: View {
     @Bindable var caseItem: Case
     @State private var isPresentingEdit = false
     @State private var isPresentingNewAttempt = false
+    @State private var showActiveConflictAlert = false
 
     private var sortedAttempts: [Attempt] {
         caseItem.attempts.sorted { $0.createdAt > $1.createdAt }
@@ -47,6 +48,10 @@ struct CaseDetailView: View {
 
             Section("Attempts") {
                 Button("New Attempt") {
+                    guard !hasAnyActiveAttempt() else {
+                        showActiveConflictAlert = true
+                        return
+                    }
                     isPresentingNewAttempt = true
                 }
 
@@ -89,6 +94,11 @@ struct CaseDetailView: View {
                 }
             }
         }
+        .alert("已有进行中的 Attempt", isPresented: $showActiveConflictAlert) {
+            Button("好", role: .cancel) { }
+        } message: {
+            Text("同一时间只能一个 Attempt 处于 active。请先完成或暂停当前进行中的 Attempt。")
+        }
         .sheet(isPresented: $isPresentingNewAttempt) {
             NavigationStack {
                 AttemptFormView(mode: .new, initial: .empty) { values in
@@ -113,6 +123,12 @@ struct CaseDetailView: View {
                 }
             }
         }
+    }
+
+    private func hasAnyActiveAttempt() -> Bool {
+        let descriptor = FetchDescriptor<Attempt>()
+        guard let attempts = try? modelContext.fetch(descriptor) else { return false }
+        return attempts.contains { $0.state == .active }
     }
 }
 

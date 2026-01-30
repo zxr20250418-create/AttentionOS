@@ -158,8 +158,13 @@ private struct ObsidianExportManager {
     }
 
     static func storeBookmark(for url: URL) throws {
+        #if os(macOS)
+        let options: URL.BookmarkCreationOptions = .withSecurityScope
+        #else
+        let options: URL.BookmarkCreationOptions = .minimalBookmark
+        #endif
         let bookmarkData = try url.bookmarkData(
-            options: .withSecurityScope,
+            options: options,
             includingResourceValuesForKeys: nil,
             relativeTo: nil
         )
@@ -169,12 +174,14 @@ private struct ObsidianExportManager {
 
     static func exportAll(cases: [Case]) throws {
         let exportURL = try resolveExportURL()
+        #if os(macOS)
         guard exportURL.startAccessingSecurityScopedResource() else {
             throw ObsidianExportError.accessDenied
         }
         defer {
             exportURL.stopAccessingSecurityScopedResource()
         }
+        #endif
 
         let targetDirectory = exportURL.appendingPathComponent("AttentionOS", isDirectory: true)
         try FileManager.default.createDirectory(
@@ -196,9 +203,14 @@ private struct ObsidianExportManager {
             throw ObsidianExportError.missingBookmark
         }
         var isStale = false
+        #if os(macOS)
+        let options: URL.BookmarkResolutionOptions = [.withSecurityScope]
+        #else
+        let options: URL.BookmarkResolutionOptions = []
+        #endif
         let url = try URL(
             resolvingBookmarkData: data,
-            options: [.withSecurityScope],
+            options: options,
             relativeTo: nil,
             bookmarkDataIsStale: &isStale
         )
