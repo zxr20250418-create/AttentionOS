@@ -9,6 +9,7 @@
 - Review：列表分段（Due / Inbox / Do Now / Schedule），包含示例过滤逻辑（基于字段）。
 - Cases：Case 列表、详情、编辑与尝试记录。
 - 本地通知：`nextReview` + `notifyEnabled` 自动排程，支持单条更新与全局开关。
+- Obsidian 导出：在 Settings 选择导出目录（安全书签），支持一键导出全部 Case 为 Markdown。
 
 ## 项目结构
 ```
@@ -44,5 +45,5 @@ AttentionOS/
 
 ## 下一步建议
 - 将 Review 决策流转扩展到 Case 与 Attempt（含分段筛选）。
-- 补齐 Attempt 详情与编辑流程（含 outcome/importance/urgency）。
+- 将 Attempt 的 importance/urgency/outcome 纳入 Review 分段逻辑与展示。
 - 引入数据迁移策略与测试数据种子。

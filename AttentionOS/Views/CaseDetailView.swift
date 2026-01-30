@@ -55,7 +55,11 @@ struct CaseDetailView: View {
                         .foregroundStyle(.secondary)
                 } else {
                     ForEach(sortedAttempts) { attempt in
-                        AttemptRow(attempt: attempt)
+                        NavigationLink {
+                            AttemptDetailView(attempt: attempt)
+                        } label: {
+                            AttemptRow(attempt: attempt)
+                        }
                     }
                 }
             }
@@ -92,6 +96,9 @@ struct CaseDetailView: View {
                     let notifyEnabled = values.nextReview != nil
                     let attempt = Attempt(
                         note: trimmedNote,
+                        outcome: values.outcome,
+                        importance: values.importance,
+                        urgency: values.urgency,
                         state: values.state,
                         decision: values.decision,
                         benefit: values.benefit,

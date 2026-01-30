@@ -2,6 +2,9 @@ import SwiftUI
 
 struct AttemptFormValues {
     var note: String
+    var outcome: String
+    var importance: Int
+    var urgency: Int
     var decision: Decision
     var benefit: Double
     var friction: Double
@@ -11,6 +14,9 @@ struct AttemptFormValues {
     static var empty: AttemptFormValues {
         AttemptFormValues(
             note: "",
+            outcome: "",
+            importance: 0,
+            urgency: 0,
             decision: .undecided,
             benefit: 0,
             friction: 0,
@@ -18,15 +24,30 @@ struct AttemptFormValues {
             nextReview: nil
         )
     }
+
+    init(attempt: Attempt) {
+        self.note = attempt.note
+        self.outcome = attempt.outcome
+        self.importance = attempt.importance
+        self.urgency = attempt.urgency
+        self.decision = attempt.decision
+        self.benefit = attempt.benefit
+        self.friction = attempt.friction
+        self.state = attempt.state
+        self.nextReview = attempt.nextReview
+    }
 }
 
 enum AttemptFormMode {
     case new
+    case edit
 
     var title: String {
         switch self {
         case .new:
             return "New Attempt"
+        case .edit:
+            return "Edit Attempt"
         }
     }
 
@@ -34,6 +55,8 @@ enum AttemptFormMode {
         switch self {
         case .new:
             return "Create"
+        case .edit:
+            return "Save"
         }
     }
 }
@@ -44,6 +67,9 @@ struct AttemptFormView: View {
 
     @Environment(\.dismiss) private var dismiss
     @State private var noteText: String
+    @State private var outcomeText: String
+    @State private var importance: Int
+    @State private var urgency: Int
     @State private var decision: Decision
     @State private var benefit: Double
     @State private var friction: Double
@@ -55,6 +81,9 @@ struct AttemptFormView: View {
         self.mode = mode
         self.onSave = onSave
         _noteText = State(initialValue: initial.note)
+        _outcomeText = State(initialValue: initial.outcome)
+        _importance = State(initialValue: initial.importance)
+        _urgency = State(initialValue: initial.urgency)
         _decision = State(initialValue: initial.decision)
         _benefit = State(initialValue: initial.benefit)
         _friction = State(initialValue: initial.friction)
@@ -65,11 +94,17 @@ struct AttemptFormView: View {
 
     var body: some View {
         Form {
-            Section("Notes (optional)") {
-                TextField("Notes", text: $noteText, axis: .vertical)
+            Section("Basics") {
+                TextField("Note", text: $noteText, axis: .vertical)
+            }
+
+            Section("Outcome (optional)") {
+                TextField("Outcome", text: $outcomeText, axis: .vertical)
             }
 
             Section("Signals") {
+                Stepper("Importance \(importance)", value: $importance, in: 0...10)
+                Stepper("Urgency \(urgency)", value: $urgency, in: 0...10)
                 Picker("Decision", selection: $decision) {
                     ForEach(Decision.allCases, id: \.self) { decision in
                         Text(decision.rawValue)
@@ -111,8 +146,12 @@ struct AttemptFormView: View {
     }
 
     private func save() {
+        let trimmedNote = noteText.trimmingCharacters(in: .whitespacesAndNewlines)
         let values = AttemptFormValues(
-            note: noteText.trimmingCharacters(in: .whitespacesAndNewlines),
+            note: trimmedNote,
+            outcome: outcomeText.trimmingCharacters(in: .whitespacesAndNewlines),
+            importance: importance,
+            urgency: urgency,
             decision: decision,
             benefit: benefit,
             friction: friction,
